@@ -6,15 +6,38 @@
     <title>로그인 화면</title>
   </head>
   <body>
-    <form>
-      <fieldset>
+    <form class="form" action="">
+      <filedset>
         <legend>로그인</legend>
-        <input type="text" name="userID" id="userID" /><br />
-        <input type="password" name="password" />
-        <input type="submit" vlaue="로그인" /><br />
-        <input type="reset" vlaue="취소" />
-      </fieldset>
+        <input type="text" name="userId" id="userId" /><br />
+        <input type="password" name="password" id="password" /><br />
+        <input type="submit" value="로그인" />
+        <input type="reset" value="취소" />
+      </filedset>
     </form>
-    <script></script>
+    <script>
+      document.querySelector("form").addEventListener("submit", async (e) => {
+        e.defaultPrevent(); //기본 이벤트 차단
+        const inpusts = document.querySelectorAll("form input");
+        const response = await fetch(
+          "http://teacherdev09.kro.kr:10002/springboot/auth/login.do",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: inputs[0].value,
+              password: inputs[1].value,
+            }),
+          },
+        );
+        if (!response.ok) throw new Error("에러");
+        const data = await response.json();
+        if (data.token) sessionStorage.setItem(JSON.stringify(data));
+        else throw new Error("로그인 실패");
+      });
+    </script>
+    <script src="js/main.js"></script>
   </body>
 </html>

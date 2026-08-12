@@ -18,5 +18,8 @@ h1 {
   font-size: 1.2em;
   cursor: pointer;
   border-radius: 8px;
-  cursor: pointer;
+}
+.form {
+  width: 100%;
+  display: flex;
 }
